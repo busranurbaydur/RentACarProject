@@ -25,7 +25,7 @@ namespace Business.Concrete
             _carImageDal = carImageDal;
         }
 
-        //[SecuredOperation("image.add,admin")]
+       
         public IResult Add(IFormFile file, CarImage carImage)
         {
             var result = BusinessRules.Run(CheckImageRestriction(carImage.CarId));
@@ -39,7 +39,7 @@ namespace Business.Concrete
             _carImageDal.Add(carImage);
             return new SuccessResult(Messages.CarImageAdded);
         }
-        //[SecuredOperation("image.delete,admin")]
+        
         public IResult Delete(CarImage carImage)
         {
             FileHelper.Delete(carImage.ImagePath);
@@ -47,21 +47,21 @@ namespace Business.Concrete
             return new SuccessResult(Messages.UserDeleted);
         }
 
-        //[SecuredOperation("image.getall,admin")]
+        
         public IDataResult<List<CarImage>> GetAll()
         {
             return new SuccessDataResult<List<CarImage>>(_carImageDal.GetAll(), Messages.CarImageAdded);
 
         }
 
-        //[CacheAspect]
+        
         public IDataResult<List<CarImage>> GetByCarId(int id)
         {
             return new SuccessDataResult<List<CarImage>>(_carImageDal.GetAll(c => c.CarId == id));
         }
 
 
-        //[SecuredOperation("image.update,admin")]
+        
         public IResult Update(IFormFile file, CarImage carImage)
         {
             carImage.ImagePath = FileHelper.Update(_carImageDal.Get(c => c.CarId == carImage.CarId).ImagePath, file);
